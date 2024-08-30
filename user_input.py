@@ -1,5 +1,6 @@
 from input_without_enter import InputWithoutEnter
 
+
 class UserInput:
     """ユーザーの入力を受け取るクラス"""
 
@@ -22,5 +23,3 @@ class UserInput:
             return (1, 0)
         else:
             return (0, 0)
-        
-    

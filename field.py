@@ -1,7 +1,6 @@
 from item import Item
 from player import Player
 from enemy import Enemy
-from item import Item
 from food import Food
 from block import Block
 
@@ -83,7 +82,10 @@ class Field:
         return self.field
 
     # 衝突判定を行う関数
-    def check_bump(self, next_coordinate: tuple[int, int], items: list[Item]) -> bool:
+    def check_bump(
+            self,
+            next_coordinate: tuple[int, int],
+            items: list[Item]) -> bool:
         """
         2つのアイテムの位置が重なっているか判定する関数
         Args:
@@ -100,7 +102,8 @@ class Field:
         pass
         # 衝突判定を行う処理を記述
         for item in items:
-            if item.now_x == next_coordinate[0] and item.now_y == next_coordinate[1]:
+            if item.now_x == next_coordinate[0] and \
+                  item.now_y == next_coordinate[1]:
                 return True
         return False
 

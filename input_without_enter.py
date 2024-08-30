@@ -1,33 +1,31 @@
 import sys
 import termios
 
+
 class InputWithoutEnter:
     '''エンターキーを押さずに入力を受け取るクラス'''
-
 
     def input_without_enter():
         '''エンターキーを押さずに入力を受け取る
         Returns:
             str: 入力された文字
-            
         '''
 
-        #標準入力のファイルディスクリプタを取得
+        # 標準入力のファイルディスクリプタを取得
         fd = sys.stdin.fileno()
 
-        #fdの端末属性をゲットする
-        #oldとnewには同じものが入る。
-        #newに変更を加えて、適応する
-        #oldは、後で元に戻すため
+        # fdの端末属性をゲットする
+        # oldとnewには同じものが入る。
+        # newに変更を加えて、適応する
+        # oldは、後で元に戻すため
         old = termios.tcgetattr(fd)
         new = termios.tcgetattr(fd)
 
-        #new[3]はlflags
-        #ICANON(カノニカルモードのフラグ)を外す
+        # new[3]はlflags
+        # ICANON(カノニカルモードのフラグ)を外す
         new[3] &= ~termios.ICANON
-        #ECHO(入力された文字を表示するか否かのフラグ)を外す
+        # ECHO(入力された文字を表示するか否かのフラグ)を外す
         new[3] &= ~termios.ECHO
-
 
         try:
             # 書き換えたnewをfdに適応する

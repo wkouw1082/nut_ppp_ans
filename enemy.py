@@ -21,7 +21,8 @@ class Enemy(Item):
 
     def move_random(self) -> tuple[int, int]:
         """ランダムに動きたい方向を計算するメソッド.
-        random.choice()を用いて上下左右のいずれかの方向を選択し、現在座標に加えて次に移動したい座標を計算する.
+        random.choice()を用いて上下左右のいずれかの方向を選択し、
+        現在座標に加えて次に移動したい座標を計算する.
 
         Returns:
           tuple[int, int]: 移動したい座標
@@ -63,6 +64,7 @@ class Enemy(Item):
         """
         self.now_x = next_coordinate[0]
         self.now_y = next_coordinate[1]
+
 
 if __name__ == "__main__":
     doctest.testmod()

@@ -1,7 +1,6 @@
 import os
-import argparse
 from field import Field
-from userInput import UserInput
+from user_input import UserInput
 import time
 from player import Player
 from enemy import Enemy
