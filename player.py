@@ -15,7 +15,7 @@ class Player(Item):
 
     def __init__(self, x, y) -> None:
         super().__init__(x, y)
-        self.icon = "P"
+        self.icon = "😶"
 
     def move_next(self, key: tuple[int, int]) -> tuple[int, int]:
         """

@@ -17,7 +17,7 @@ class Enemy(Item):
 
     def __init__(self, x, y) -> None:
         super().__init__(x, y)
-        self.icon = "E"
+        self.icon = "👻"
 
     def move_random(self) -> tuple[int, int]:
         """ランダムに動きたい方向を計算するメソッド.

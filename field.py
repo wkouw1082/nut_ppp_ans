@@ -22,12 +22,12 @@ class Field:
     #  Fieldを生成する関数
     def __init__(self, players, enemies, foods, blocks) -> None:
         self.field = [
-            [" ", " ", " ", " ", " ", " "],
-            [" ", " ", " ", " ", " ", " "],
-            [" ", " ", " ", " ", " ", " "],
-            [" ", " ", " ", " ", " ", " "],
-            [" ", " ", " ", " ", " ", " "],
-            [" ", " ", " ", " ", " ", " "],
+            ["　", "　", "　", "　", "　", "　"],
+            ["　", "　", "　", "　", "　", "　"],
+            ["　", "　", "　", "　", "　", "　"],
+            ["　", "　", "　", "　", "　", "　"],
+            ["　", "　", "　", "　", "　", "　"],
+            ["　", "　", "　", "　", "　", "　"],
         ]
         self.players = players
         self.enemies = enemies
@@ -62,13 +62,13 @@ class Field:
         Examples:
             >>> field = Field([Player()], [Enemy()], [()])
             >>> field.update_field([Player()], [Enemy()], [Item()])
-            [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
+            [["　", "　", "　"], ["　", "　", "　"], ["　", "　", "　"]]
         """
         # fieldを#を残して、それ以外は空白にする
         for i in range(len(self.field)):
             for j in range(len(self.field[i])):
                 if self.field[i][j] != blocks[0].icon:
-                    self.field[i][j] = " "
+                    self.field[i][j] = "　"
         #  Fieldを更新する処理を記述
         for player in players:
             if player.status:
@@ -112,11 +112,11 @@ class Field:
         Examples:
             >>> field = Field(5, 9, [Player()], [Enemy()], [Item()])
             >>> field.display_field()
-            #########
-            #P   E  #
-            ## #### #
-            #       #
-            #########
+            🌴🌴🌴🌴🌴🌴🌴🌴🌴
+            🌴😶　　　👻　　🌴
+            🌴🌴　🌴🌴🌴🌴　🌴
+            🌴　　　　　　　🌴
+            🌴🌴🌴🌴🌴🌴🌴🌴🌴
         """
         # self.fieldを表示する処理を記述
         max_width = max(len(row) for row in self.field)  # フィールド内の最大幅を取得
