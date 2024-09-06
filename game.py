@@ -8,6 +8,10 @@ from field import Field
 from user_input import UserInput
 from config import Parameters
 from random import randint
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class Game:
@@ -100,7 +104,7 @@ class Game:
             if self.field.check_bump(
                     player_next_coordinate,
                     list(self.enemies)):
-                print("Game Over!")
+                logger.info("Game Over!")
                 return "Game Over!"
             # 食べ物との衝突判定
             if self.field.check_bump(player_next_coordinate, list(self.foods)):
@@ -111,7 +115,7 @@ class Game:
                     or food.now_y != player_next_coordinate[1]
                 ]
                 if not self.foods:
-                    print("Game Clear!")
+                    logger.info("Game Clear!")
                     return "Game Clear!"
 
             self.players[0].update_coordinate(player_next_coordinate)

@@ -1,13 +1,15 @@
 """便利な関数群"""
-from __future__ import annotations  # Python 3.7, 3.8はこの記述が必要
+from __future__ import annotations
 import subprocess
 import logging
 import json
 from datetime import datetime
 import os
 from dataclasses import asdict
-import config
 from typing import Any
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from config import Parameters
 
 
 def get_git_revision() -> str:
@@ -52,7 +54,7 @@ def setup_params(
 
 
 def dump_params(
-        params: 'config.Parameters',
+        params: Parameters,
         outdir: str,
         partial: bool = False) -> None:
     """
