@@ -19,15 +19,24 @@ class Field:
     """
 
     #  Fieldを生成する関数
-    def __init__(self, players, enemies, foods, blocks) -> None:
-        self.field = [
-            ["　", "　", "　", "　", "　", "　"],
-            ["　", "　", "　", "　", "　", "　"],
-            ["　", "　", "　", "　", "　", "　"],
-            ["　", "　", "　", "　", "　", "　"],
-            ["　", "　", "　", "　", "　", "　"],
-            ["　", "　", "　", "　", "　", "　"],
-        ]
+    def __init__(
+            self,
+            players: list[Player],
+            enemies: list[Enemy],
+            foods: list[Food],
+            blocks: list[Block],
+            f_size: int = 6) -> None:
+        """
+        Fieldクラスの初期化を行う関数
+
+        Args:
+            players (list[Player]): プレイヤーのリスト
+            enemies (list[Enemy]): 敵のリスト
+            foods (list[Food]): アイテムのリスト
+            blocks (list[Block]): アイテムのリスト
+            f_size (int): フィールドのサイズ
+        """
+        self.field = [["　" for _ in range(f_size)] for _ in range(f_size)]
         self.players = players
         self.enemies = enemies
         self.food = foods

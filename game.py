@@ -6,51 +6,69 @@ from food import Food
 from block import Block
 from field import Field
 from user_input import UserInput
+from config import Parameters
 
 
 class Game:
-    def __init__(self) -> None:
-        """ゲームクラス
-        ゲームの初期設定とメインループを実行してゲームを実施するクラス．
+    """ゲームクラス
+    ゲームの初期設定とメインループを実行してゲームを実施するクラス．
 
-        Attributes:
-            players (list[Player]): プレイヤーのリスト
-            enemies (list[Enemy]): 敵のリスト
-            foods (list[Food]): 食べ物のリスト
-            blocks (list[Block]): ブロックのリスト
-            field (Field): フィールドのインスタンス
+    Attributes:
+        players (list[Player]): プレイヤーのリスト
+        enemies (list[Enemy]): 敵のリスト
+        foods (list[Food]): 食べ物のリスト
+        blocks (list[Block]): ブロックのリスト
+        field (Field): フィールドのインスタンス
+    """
+
+    def __init__(self, params: Parameters) -> None:
+        """ゲームクラスの初期化
+
+        Args:
+            params (Parameters): configのパラメータのインスタンス
         """
         self.players = []
         self.enemies = []
         self.foods = []
         self.blocks = []
         self.field = None
-        self.setup()  # ゲームの初期設定
+        self.setup(params)  # ゲームの初期設定
         self.start()  # ゲームのメインループ
 
-    def setup(self) -> None:
+    def setup(self, params: Parameters) -> None:
         """ゲームの初期設定
         ゲームの初期設定を行うメソッド．
+
+        Args:
+            params (Parameters): configのパラメータのインスタンス
         """
         # フィールドの初期化
         self.players = [Player(3, 3)]
         self.enemies = [Enemy(2, 3), Enemy(1, 4)]
         self.foods = [Food(4, 3)]  # 例としていくつかの食べ物を配置
         # 6*6のフィールドの周りを壁とするBlockインスタンスを生成
+        f_size = params.field_size
+        if f_size < 6:
+            raise ValueError("field_size must be greater than 6")
         self.blocks = [
             Block(x, y)
-            for x in range(6)
-            for y in range(6)
-            if x == 0 or x == 5 or y == 0 or y == 5
+            for x in range(f_size)
+            for y in range(f_size)
+            if x == 0 or x == f_size - 1 or y == 0 or y == f_size - 1
         ]
-        self.field = Field(self.players, self.enemies, self.foods, self.blocks)
+        self.field = Field(
+            self.players,
+            self.enemies,
+            self.foods,
+            self.blocks,
+            f_size)
 
     def start(self) -> str:
         """ゲームのメインループ
         ゲームのメインループを実行するメソッド．
         キー入力を受け取り，プレイヤーと敵の移動を行い，フィールドを更新する．
         ゲーム終了条件を満たした場合は終了する．
-        
+
         Returns:
             str: ゲーム終了時のメッセージ (例: "Game Over!", "Game Clear!")
         """
