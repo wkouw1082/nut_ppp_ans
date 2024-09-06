@@ -7,6 +7,7 @@ from block import Block
 from field import Field
 from user_input import UserInput
 from config import Parameters
+from random import randint
 
 
 class Game:
@@ -42,13 +43,18 @@ class Game:
         Args:
             params (Parameters): configのパラメータのインスタンス
         """
+        f_size = params.field_size  # フィールドのサイズ
+        e_num = params.enemy_num
         # フィールドの初期化
-        self.players = [Player(3, 3)]
-        self.enemies = [Enemy(2, 3), Enemy(1, 4)]
-        self.foods = [Food(4, 3)]  # 例としていくつかの食べ物を配置
+        self.players = [Player(1, 1)]
+        self.enemies = [
+            Enemy(randint(1, f_size - 2), randint(1, f_size - 2))
+            for _ in range(e_num)]
+        self.foods = [
+            Food(randint(1, f_size - 2), randint(1, f_size - 2))
+            ]  # 食べ物を配置
         # 6*6のフィールドの周りを壁とするBlockインスタンスを生成
-        f_size = params.field_size
-        if f_size < 6:
+        if f_size < 4:
             raise ValueError("field_size must be greater than 6")
         self.blocks = [
             Block(x, y)

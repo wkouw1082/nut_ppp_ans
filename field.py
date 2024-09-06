@@ -42,14 +42,14 @@ class Field:
         self.food = foods
         self.block = blocks
         # それぞれのアイテムの位置をFieldに反映
-        for player in players:
-            self.field[player.now_y][player.now_x] = player.icon
         for enemy in enemies:
             self.field[enemy.now_y][enemy.now_x] = enemy.icon
         for food in foods:
             self.field[food.now_y][food.now_x] = food.icon
         for block in blocks:
             self.field[block.now_y][block.now_x] = block.icon
+        for player in players:
+            self.field[player.now_y][player.now_x] = player.icon
 
     def update_field(
         self,
@@ -72,21 +72,21 @@ class Field:
             >>> field.update_field([Player()], [Enemy()], [Item()])
             [["　", "　", "　"], ["　", "　", "　"], ["　", "　", "　"]]
         """
-        # fieldを#を残して、それ以外は空白にする
+        # fieldをblockを残して、それ以外は空白にする
         for i in range(len(self.field)):
             for j in range(len(self.field[i])):
                 if self.field[i][j] != blocks[0].icon:
                     self.field[i][j] = "　"
         #  Fieldを更新する処理を記述
-        for player in players:
-            if player.status:
-                self.field[player.now_y][player.now_x] = player.icon
         for enemy in enemies:
             if enemy.status:
                 self.field[enemy.now_y][enemy.now_x] = enemy.icon
         for food in foods:
             if food.status:
                 self.field[food.now_y][food.now_x] = food.icon
+        for player in players:
+            if player.status:
+                self.field[player.now_y][player.now_x] = player.icon
 
         return self.field
 

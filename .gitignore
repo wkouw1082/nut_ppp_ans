@@ -11,3 +11,4 @@ result/*
 parameters.json
 .python-version
 .mypy_cache
+__pycache__
