@@ -62,3 +62,9 @@ class Player(Item):
         """
         self.now_x = next_coordinate[0]
         self.now_y = next_coordinate[1]
+
+
+if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
