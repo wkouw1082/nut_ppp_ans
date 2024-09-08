@@ -16,6 +16,8 @@ class Field:
         enemies (list[Enemy]): 敵のリスト
         foods (list[Food]]): アイテムのリスト
         blocks (list[Block]): アイテムのリスト
+        field (list[list[str]]): フィールドの情報
+        f_size (int): フィールドのサイズ
     """
 
     #  Fieldを生成する関数
@@ -33,61 +35,61 @@ class Field:
             players (list[Player]): プレイヤーのリスト
             enemies (list[Enemy]): 敵のリスト
             foods (list[Food]): アイテムのリスト
-            blocks (list[Block]): アイテムのリスト
+            blocks (list[Block]): ブロックのリスト
             f_size (int): フィールドのサイズ
         """
+        self.f_size = f_size
         self.field = [["　" for _ in range(f_size)] for _ in range(f_size)]
         self.players = players
         self.enemies = enemies
-        self.food = foods
-        self.block = blocks
+        self.foods = foods
+        self.blocks = blocks
         # それぞれのアイテムの位置をFieldに反映
-        for enemy in enemies:
-            self.field[enemy.now_y][enemy.now_x] = enemy.icon
-        for food in foods:
-            self.field[food.now_y][food.now_x] = food.icon
-        for block in blocks:
-            self.field[block.now_y][block.now_x] = block.icon
-        for player in players:
-            self.field[player.now_y][player.now_x] = player.icon
+        self.update_field()
 
-    def update_field(
-        self,
-        players: list[Player],
-        enemies: list[Enemy],
-        foods: list[Food],
-        blocks: list[Block],
-    ) -> list[list[str]]:
+    def update_field(self) -> list[list[str]]:
         """
         敵、プレイヤー、アイテムを配置を参照して、Fieldを更新する関数
-        Args:
-            players (list[Player]): プレイヤーのリスト
-            enemies (list[Enemy]): 敵のリスト
-            items (list[Item]): アイテムのリスト
+
         Returns:
             list[list[str]]: 更新されたField
 
         Examples:
-            >>> field = Field([Player()], [Enemy()], [()])
-            >>> field.update_field([Player()], [Enemy()], [Item()])
-            [["　", "　", "　"], ["　", "　", "　"], ["　", "　", "　"]]
+            >>> p = [Player(1, 0)]
+            >>> p[0].icon = "p"
+            >>> e1 = Enemy(2, 0)
+            >>> e1.icon = "e1"
+            >>> e2 = Enemy(1, 1)
+            >>> e2.icon = "e2"
+            >>> e = [e1, e2]
+            >>> f = [Food(0, 1)]
+            >>> f[0].icon = "f"
+            >>> b1 = Block(0, 2)
+            >>> b1.icon = "b1"
+            >>> b2 = Enemy(1, 2)
+            >>> b2.icon = "b2"
+            >>> b = [b1, b2]
+            >>> field = Field(p, e, f, b, 3)
+            >>> field.update_field()
+            [['\\u3000', 'p', 'e1'], ['f', 'e2', '\\u3000'], ['b1', 'b2', '\\u3000']]
         """
-        # fieldをblockを残して、それ以外は空白にする
+        # fieldを一旦すべて空白にする
         for i in range(len(self.field)):
             for j in range(len(self.field[i])):
-                if self.field[i][j] != blocks[0].icon:
-                    self.field[i][j] = "　"
+                self.field[i][j] = "　"
         #  Fieldを更新する処理を記述
-        for enemy in enemies:
+        for enemy in self.enemies:
             if enemy.status:
                 self.field[enemy.now_y][enemy.now_x] = enemy.icon
-        for food in foods:
+        for food in self.foods:
             if food.status:
                 self.field[food.now_y][food.now_x] = food.icon
-        for player in players:
+        for block in self.blocks:
+            if block.status:
+                self.field[block.now_y][block.now_x] = block.icon
+        for player in self.players:
             if player.status:
                 self.field[player.now_y][player.now_x] = player.icon
-
         return self.field
 
     # 衝突判定を行う関数
@@ -104,7 +106,7 @@ class Field:
             bool: 重なっているかどうか
 
         Examples:
-            >>> field = Field(3, 3, [Player()], [Enemy()], [Item()])
+            >>> field = Field([Player()], [Enemy()], [Item()])
             >>> field.check_bump(Item(), [Item()])
             False
         """

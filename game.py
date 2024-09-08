@@ -153,11 +153,7 @@ class Game:
                 enemy.update_coordinate(enemy_next_coordinate)
 
             # fieldを更新
-            self.field.update_field(
-                    self.players,
-                    self.enemies,
-                    self.foods,
-                    self.blocks)
+            self.field.update_field()
 
             # 一定の間隔で処理を繰り返す
             # 0.3秒待つ
