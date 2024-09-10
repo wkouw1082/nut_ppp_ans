@@ -48,6 +48,36 @@ class Player(Item):
         self.next_y = self.now_y + dir[1]
         return (self.next_x, self.next_y)
 
+    def change_face_good(self) -> None:
+        """
+        プレイヤーのアイコンを変更するメソッド
+        プレイヤーのアイコンを😊に変更する.
+
+        Examples:
+            >>> player = Player(2, 3)
+            >>> player.icon
+            '😶'
+            >>> player.change_face_good()
+            >>> player.icon
+            '😊'
+        """
+        self.icon = "😊"
+
+    def change_face_bad(self) -> None:
+        """
+        プレイヤーのアイコンを変更するメソッド
+        プレイヤーのアイコンを😭に変更する.
+
+        Examples:
+            >>> player = Player(2, 3)
+            >>> player.icon
+            '😶'
+            >>> player.change_face_bad()
+            >>> player.icon
+            '😭'
+        """
+        self.icon = "😭"
+
 
 if __name__ == "__main__":
     import doctest

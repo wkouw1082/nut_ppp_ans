@@ -107,9 +107,10 @@ class Game:
                 else:
                     item.update_pos()
 
-            # 敵との衝突判定
             for player in self.players:
+                # 敵との衝突判定
                 if self.field.check_bump(player, list(self.enemies)):
+                    player.change_face_bad()
                     self.field.update_field()
                     os.system("cls" if os.name == "nt" else "clear")
                     # ターミナルをクリア
@@ -117,17 +118,18 @@ class Game:
                     logger.info("Game Over!")
                     return "Game Over!"
 
-            # 食べ物との衝突判定
-            bumped_item = self.field.check_bump(player, list(self.foods))
-            if bumped_item is not None:
-                bumped_item.status = False
-                if all([not food.status for food in self.foods]):
-                    self.field.update_field()
-                    os.system("cls" if os.name == "nt" else "clear")
-                    # ターミナルをクリア
-                    self.field.display_field()
-                    logger.info("Game Clear!")
-                    return "Game Clear!"
+                # 食べ物との衝突判定
+                bumped_item = self.field.check_bump(player, list(self.foods))
+                if bumped_item is not None:
+                    bumped_item.status = False
+                    if all([not food.status for food in self.foods]):
+                        player.change_face_good()
+                        self.field.update_field()
+                        os.system("cls" if os.name == "nt" else "clear")
+                        # ターミナルをクリア
+                        self.field.display_field()
+                        logger.info("Game Clear!")
+                        return "Game Clear!"
 
             # fieldを更新
             self.field.update_field()
