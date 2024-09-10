@@ -1,5 +1,4 @@
 import time
-import os
 from player import Player
 from enemy import Enemy
 from food import Food
@@ -9,6 +8,7 @@ from user_input import UserInput
 from config import Parameters
 from random import randint
 import logging
+import os
 
 
 logger = logging.getLogger(__name__)
@@ -59,7 +59,7 @@ class Game:
             ]  # 食べ物を配置
         # 6*6のフィールドの周りを壁とするBlockインスタンスを生成
         if f_size < 4:
-            raise ValueError("field_size must be greater than 6")
+            raise ValueError("field_size must be greater than 4")
         self.blocks = [
             Block(x, y)
             for x in range(f_size)
@@ -84,73 +84,50 @@ class Game:
         """
         # ゲームのメインループ
         while True:
-            os.system("cls" if os.name == "nt" else "clear")  # ターミナルをクリア
-            # 動きか方を表示
-            print("w: 上に移動")
-            print("a: 左に移動")
-            print("s: 下に移動")
-            print("d: 右に移動")
             #  フィールドを表示
+            os.system("cls" if os.name == "nt" else "clear")  # ターミナルをクリア
             self.field.display_field()
-            # キー入力を受け取る
-            key = UserInput.get_user_input()
 
-            player_next_coordinate = self.players[0].move_next(key)
-            if self.field.check_bump(
-                    player_next_coordinate,
-                    list(self.blocks)):
-                continue
-                # 敵との衝突判定
-            if self.field.check_bump(
-                    player_next_coordinate,
-                    list(self.enemies)):
-                logger.info("Game Over!")
-                return "Game Over!"
+            # プレイヤーの移動を決定
+            for player in self.players:
+                # キー入力を受け取る
+                key = UserInput.get_user_input()
+                player.get_next_pos(key)
+
+            # 敵の移動を決定
+            for enemy in self.enemies:
+                enemy.get_next_pos()
+
+            # プレイヤーと敵の移動
+            for item in self.players + self.enemies:
+                # ブロックとの衝突判定
+                bumped_item = self.field.check_bump(item, list(self.blocks))
+                if bumped_item is not None:
+                    item.update_pos(stuck=True)
+                else:
+                    item.update_pos()
+
+            # 敵との衝突判定
+            for player in self.players:
+                if self.field.check_bump(player, list(self.enemies)):
+                    self.field.update_field()
+                    os.system("cls" if os.name == "nt" else "clear")
+                    # ターミナルをクリア
+                    self.field.display_field()
+                    logger.info("Game Over!")
+                    return "Game Over!"
+
             # 食べ物との衝突判定
-            if self.field.check_bump(player_next_coordinate, list(self.foods)):
-                self.foods = [
-                    food
-                    for food in self.foods
-                    if food.now_x != player_next_coordinate[0]
-                    or food.now_y != player_next_coordinate[1]
-                ]
-                if not self.foods:
+            bumped_item = self.field.check_bump(player, list(self.foods))
+            if bumped_item is not None:
+                bumped_item.status = False
+                if all([not food.status for food in self.foods]):
+                    self.field.update_field()
+                    os.system("cls" if os.name == "nt" else "clear")
+                    # ターミナルをクリア
+                    self.field.display_field()
                     logger.info("Game Clear!")
                     return "Game Clear!"
-
-            self.players[0].update_coordinate(player_next_coordinate)
-
-            # 敵の移動
-            for enemy in self.enemies:
-                enemy_next_coordinate = enemy.move_random()
-                if self.field.check_bump(
-                        enemy_next_coordinate,
-                        list(self.blocks)):
-                    continue
-                if self.field.check_bump(
-                        enemy_next_coordinate,
-                        list(self.players)):
-                    print("Game Over!")
-                    return
-                if self.field.check_bump(
-                        enemy_next_coordinate,
-                        list(self.foods)):
-                    continue
-                if self.field.check_bump(
-                        enemy_next_coordinate,
-                        list(self.enemies)):
-                    continue
-
-                for other_enemy in self.enemies:
-                    if enemy == other_enemy:
-                        continue
-
-                    if self.field.check_bump(
-                            enemy_next_coordinate,
-                            [other_enemy]):
-                        continue
-
-                enemy.update_coordinate(enemy_next_coordinate)
 
             # fieldを更新
             self.field.update_field()

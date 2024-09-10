@@ -9,22 +9,26 @@ class Player(Item):
     を追加.
 
     Attributes:
-       新しい属性なし
-
+        self.icon(str) : 表示されるアイテムのアイコン
+        self.now_x(int) : 現在のx座標
+        self.now_y(int) : 現在のy座標
+        self.next_x(int) : 次の時刻でのx座標
+        self.next_y(int) : 次の時刻でのy座標
+        self.status(bool) : アイテムの状態（Trueなら存在する、Falseなら存在しない消滅した）
     """
 
     def __init__(self, x, y) -> None:
         super().__init__(x, y)
         self.icon = "😶"
 
-    def move_next(self, key: tuple[int, int]) -> tuple[int, int]:
+    def get_next_pos(self, dir: tuple[int, int]) -> tuple[int, int]:
         """
-        入力から移動方向を受け取って移動しようとする方向を計算するメソッド
+        入力から移動方向を受け取って移動しようとする方向を計算して次の座標を返すメソッド
         引数にキー入力から受け取った次に移動したい方向をとり,
         現在のプレイヤーの座標から次に移動したい座標を戻り値として出力する.
 
         Args:
-            key (tuple[int, int]): キー入力から受け取った次に移動したい方向.
+            dir (tuple[int, int]): キー入力から受け取った次に移動したい方向.
             (例:右に1マス移動したかったら(1,0)を受け取る)
 
         Returns:
@@ -33,38 +37,18 @@ class Player(Item):
 
         Examples:
             >>> player = Player(2, 3)
-            >>> player.move_next((1, 0))
+            >>> player.get_next_pos((1, 0))
             (3, 3)
-
-        """
-        next_coordinate = (self.now_x + key[0], self.now_y + key[1])
-        return next_coordinate
-
-    def update_coordinate(self, next_coordinate: tuple[int, int]) -> None:
-        """
-        座標を更新するメソッド
-        引数に次に移動したい座標をとり,その座標にプレイヤーの現在座標を更新する.
-
-        Args:
-            next_coordinate (tuple[int, int]): 次に移動したい座標
-
-        Returns:
-            None
-
-        Examples:
             >>> player = Player(2, 3)
-            >>> player.update_coordinate((3, 3))
-            >>> player.now_x
-            3
-            >>> player.now_y
-            3
+            >>> player.get_next_pos((0, 1))
+            (2, 4)
 
         """
-        self.now_x = next_coordinate[0]
-        self.now_y = next_coordinate[1]
+        self.next_x = self.now_x + dir[0]
+        self.next_y = self.now_y + dir[1]
+        return (self.next_x, self.next_y)
 
 
 if __name__ == "__main__":
     import doctest
-
     doctest.testmod()

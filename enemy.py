@@ -1,6 +1,5 @@
 from item import Item
 import random
-import doctest
 
 
 class Enemy(Item):
@@ -11,60 +10,43 @@ class Enemy(Item):
     を追加.
 
     Attributes:
-       新しい属性なし
-
+        self.icon(str) : 表示されるアイテムのアイコン
+        self.now_x(int) : 現在のx座標
+        self.now_y(int) : 現在のy座標
+        self.next_x(int) : 次の時刻でのx座標
+        self.next_y(int) : 次の時刻でのy座標
+        self.status(bool) : アイテムの状態（Trueなら存在する、Falseなら存在しない消滅した）
     """
 
     def __init__(self, x, y) -> None:
         super().__init__(x, y)
         self.icon = "👻"
 
-    def move_random(self) -> tuple[int, int]:
-        """ランダムに動きたい方向を計算するメソッド.
+    def get_next_pos(self) -> tuple[int, int]:
+        """ランダムに動きたい方向を計算して次の座標を返すメソッド.
         random.choice()を用いて上下左右のいずれかの方向を選択し、
         現在座標に加えて次に移動したい座標を計算する.
 
         Returns:
-          tuple[int, int]: 移動したい座標
+            tuple[int, int]: 移動したい座標
 
         Examples:
-          >>> enemy = Enemy(2, 3)
-          >>> possible_moves = [(3, 3), (1, 3), (2, 4), (2, 2)]
-          >>> next_move = enemy.move_random()
-          >>> next_move in possible_moves
-          True
+            >>> enemy = Enemy(2, 3)
+            >>> possible_moves = [(2, 3), (3, 3), (1, 3), (2, 4), (2, 2)]
+            >>> next_move = enemy.get_next_pos()
+            >>> next_move in possible_moves
+            True
 
         """
         # 上下左右の方向を表す座標のリスト
-        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        directions = [(0, 0), (1, 0), (-1, 0), (0, 1), (0, -1)]
         # ランダムに方向を選択して次に移動したい座標を計算
-        next_direction = random.choice(directions)
-        next_x = self.now_x + next_direction[0]
-        next_y = self.now_y + next_direction[1]
-        return (next_x, next_y)
-
-    def update_coordinate(self, next_coordinate: tuple[int, int]) -> None:
-        """座標を更新するメソッド
-        引数に次に移動したい座標をとり,その座標にプレイヤーの現在座標を更新する.
-
-        Args:
-          var1(list) : 次に移動したい座標
-
-        Return:
-          なし
-
-        Examples:
-          >>> enemy = Enemy(2, 3)
-          >>> enemy.update_coordinate((2, 4))
-          >>> enemy.now_x
-          2
-          >>> enemy.now_y
-          4
-
-        """
-        self.now_x = next_coordinate[0]
-        self.now_y = next_coordinate[1]
+        dir = random.choice(directions)
+        self.next_x = self.now_x + dir[0]
+        self.next_y = self.now_y + dir[1]
+        return (self.next_x, self.next_y)
 
 
 if __name__ == "__main__":
+    import doctest
     doctest.testmod()
