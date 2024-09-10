@@ -49,6 +49,7 @@ class Game:
         """
         f_size = params.field_size  # フィールドのサイズ
         e_num = params.enemy_num
+        f_num = params.food_num
         # フィールドの初期化
         self.players = [Player(1, 1)]
         self.enemies = [
@@ -56,6 +57,7 @@ class Game:
             for _ in range(e_num)]
         self.foods = [
             Food(randint(1, f_size - 2), randint(1, f_size - 2))
+            for _ in range(f_num)
             ]  # 食べ物を配置
         # 6*6のフィールドの周りを壁とするBlockインスタンスを生成
         if f_size < 4:
