@@ -66,7 +66,7 @@ class Field:
             >>> f[0].icon = "f1"
             >>> b1 = Block(0, 2)
             >>> b1.icon = "b1"
-            >>> b2 = Enemy(1, 2)
+            >>> b2 = Block(1, 2)
             >>> b2.icon = "b2"
             >>> b = [b1, b2]
             >>> field = Field(p, e, f, b, 3)
