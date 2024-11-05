@@ -37,7 +37,7 @@ python main.py
 ├── player.py           # Playerクラス
 ├── food.py             # Foodクラス
 ├── test_user_input.py  # 入力されたキーを移動方向の座標に変換するファイル
-├── userInput.py        # エンターキーを押さないでキーから変数に入力できるようにするためのファイル
+├── Controller.py        # エンターキーを押さないでキーから変数に入力できるようにするためのファイル
 ├── parameters.json     # パラメータ指定用ファイル
 ├── result              # 結果出力ディレクトリ
 │   └── 20211026_165841

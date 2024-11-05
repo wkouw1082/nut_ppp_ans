@@ -4,7 +4,7 @@ from enemy import Enemy
 from food import Food
 from block import Block
 from field import Field
-from user_input import UserInput
+from user_input import Controller
 from config import Parameters
 from random import randint
 import logging
@@ -93,7 +93,7 @@ class Game:
             # プレイヤーの移動を決定
             for player in self.players:
                 # キー入力を受け取る
-                key = UserInput.get_user_input()
+                key = Controller.get_user_input()
                 player.get_next_pos(key)
 
             # 敵の移動を決定
