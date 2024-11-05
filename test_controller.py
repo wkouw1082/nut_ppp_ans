@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from user_input import Controller
+from controller import Controller
 
 
 class TestController(unittest.TestCase):

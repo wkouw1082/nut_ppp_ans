@@ -4,7 +4,7 @@ from enemy import Enemy
 from food import Food
 from block import Block
 from field import Field
-from user_input import Controller
+from controller import Controller
 from config import Parameters
 from random import randint
 import logging
