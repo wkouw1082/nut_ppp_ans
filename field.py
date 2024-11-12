@@ -27,7 +27,7 @@ class Field:
             enemies: list[Enemy],
             foods: list[Food],
             blocks: list[Block],
-            f_size: int = 6) -> None:
+            f_size: int = 6):
         """
         Fieldクラスの初期化を行う関数
 

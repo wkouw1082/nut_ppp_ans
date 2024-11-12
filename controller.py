@@ -2,7 +2,7 @@ import sys
 import termios
 
 
-class UserInput:
+class Controller:
     """ユーザーの入力を受け取るクラス"""
 
     @staticmethod
@@ -12,7 +12,7 @@ class UserInput:
             tuple[int, int]: x, y座標の差分 (例: (1, 0)、(-1, 0)、(0, 1)、(0, -1))など)
         """
         # キー入力を受け取る
-        key = UserInput.input_without_enter()
+        key = Controller.input_without_enter()
         # 入力されたキーに対応する座標の差分を返す
         if key == "w":
             return (0, -1)
